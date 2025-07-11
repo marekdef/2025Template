@@ -7,12 +7,16 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.invisibleToUser
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -30,7 +34,7 @@ import pl.senordeveloper.a2025template.model.name
 import pl.senordeveloper.a2025template.model.onDeveloperInfoProfileClick
 import pl.senordeveloper.a2025template.model.profileUrl
 
-
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DeveloperInfo(
     modifier: Modifier = Modifier,
@@ -46,23 +50,38 @@ fun DeveloperInfo(
             )
         )
         Row(
-            modifier = Modifier.padding(8.dp).semantics(true) {
-                role = Role.Switch
-                contentDescription =  if (developerInfoState.isChecked) {
-                    "${developerInfoState.name} 1:1 is planned"
-                } else {
-                    "${developerInfoState.name} 1:1 is not planned"
-                }
-            },
+            modifier = Modifier
+                .padding(8.dp)
+                .semantics(true) {
+                    role = Role.Switch
+                    contentDescription = if (developerInfoState.isChecked) {
+                        "${developerInfoState.name} 1 to 1"
+                    } else {
+                        "${developerInfoState.name} 1 to 1"
+                    }
+                    stateDescription = if (developerInfoState.isChecked) {
+                        "is on"
+                    } else {
+                        "is off"
+                    }
+                    onClick {
+                        developerInfoState.lambdas.onDeveloperInfoCheckedChange(developerInfoState.developerInfo)(!developerInfoState.isChecked)
+                        true
+                    }
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Switch(
-                modifier = Modifier,
+                modifier = Modifier.semantics {
+                    invisibleToUser()
+                },
                 checked = developerInfoState.isChecked,
                 onCheckedChange = developerInfoState.lambdas.onDeveloperInfoCheckedChange(developerInfoState.developerInfo)
             )
             Text(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier
+                    .semantics { invisibleToUser() }
+                    .padding(8.dp),
                 text = developerInfoState.name
             )
         }
