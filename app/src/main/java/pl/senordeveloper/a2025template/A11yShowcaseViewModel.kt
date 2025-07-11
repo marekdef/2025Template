@@ -44,6 +44,12 @@ class A11yShowcaseViewModel : ViewModel() {
         }
     }
 
+    fun onCopyRightClick() {
+        viewModelScope.launch {
+            _events.send(A11yShowcaseEvent.DisplaySnackBar("Copyright © 2025"))
+        }
+    }
+
     fun onDeveloperProfileClicked(developerInfo: DeveloperInfo) {
         viewModelScope.launch {
             _events.send(A11yShowcaseEvent.OpenWebBrowser(developerInfo.profileUrl))
@@ -59,7 +65,8 @@ class A11yShowcaseViewModel : ViewModel() {
         val a11yShowcaseModelLambdas = A11yShowcaseModel.Lambdas.create(
             onScheduleClick = ::onScheduleClick,
             onDeveloperInfoCheckedChange = ::onDeveloperInfoCheckedChange,
-            onDeveloperProfileClicked = ::onDeveloperProfileClicked
+            onDeveloperProfileClicked = ::onDeveloperProfileClicked,
+            onCopyRightClick = ::onCopyRightClick
         )
 
         return A11yShowcaseState(

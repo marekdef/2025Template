@@ -10,6 +10,7 @@ data class A11yShowcaseModel(
         val onScheduleClick: () -> Unit,
         val onDeveloperInfoCheckedChange: (DeveloperInfo, Boolean) -> Unit,
         val onDeveloperProfileClicked: (DeveloperInfo) -> Unit,
+        val onCopyRightClick: () -> Unit = {},
     ) : ALambdas<A11yShowcaseModel> {
         val developerInfoStatesLambdas: DeveloperInfosModel.Lambdas =
             DeveloperInfosModel.Lambdas(
@@ -22,10 +23,12 @@ data class A11yShowcaseModel(
                 onScheduleClick: () -> Unit = {},
                 onDeveloperInfoCheckedChange: (DeveloperInfo, Boolean) -> Unit = { _, _ -> },
                 onDeveloperProfileClicked: (DeveloperInfo) -> Unit = {},
+                onCopyRightClick: () -> Unit = {}
             ) = Lambdas(
                 onScheduleClick = onScheduleClick,
                 onDeveloperInfoCheckedChange = onDeveloperInfoCheckedChange,
-                onDeveloperProfileClicked = onDeveloperProfileClicked
+                onDeveloperProfileClicked = onDeveloperProfileClicked,
+                onCopyRightClick = onCopyRightClick
             )
         }
     }

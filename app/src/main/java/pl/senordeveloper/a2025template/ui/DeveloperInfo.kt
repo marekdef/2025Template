@@ -46,7 +46,7 @@ fun DeveloperInfo(
             )
         )
         Row(
-            modifier = Modifier.padding(8.dp).semantics(false) {
+            modifier = Modifier.padding(8.dp).semantics(true) {
                 role = Role.Switch
                 contentDescription =  if (developerInfoState.isChecked) {
                     "${developerInfoState.name} 1:1 is planned"
