@@ -16,14 +16,21 @@ import pl.senordeveloper.a2025template.model.firstDeveloperInfoState
 import pl.senordeveloper.a2025template.model.secondDeveloperInfoState
 
 @Composable
-fun DeveloperInfos(modifier: Modifier = Modifier, developerInfoStates: DeveloperInfoStates) {
+fun DeveloperInfos(
+    modifier: Modifier = Modifier,
+    developerInfoStates: DeveloperInfoStates
+) {
     Column(modifier = modifier) {
         DeveloperInfo(
-            Modifier.padding(8.dp).fillMaxWidth(),
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
             developerInfoStates.firstDeveloperInfoState
         )
         DeveloperInfo(
-            Modifier.padding(8.dp).fillMaxWidth(),
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
             developerInfoStates.secondDeveloperInfoState
         )
     }

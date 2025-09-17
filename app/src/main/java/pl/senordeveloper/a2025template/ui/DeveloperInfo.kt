@@ -42,7 +42,12 @@ fun DeveloperInfo(
 ) {
     Column(modifier = modifier.padding(16.dp)) {
         Text(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(8.dp).semantics {
+                onClick {
+                    developerInfoState.onDeveloperInfoProfileClick(developerInfoState.lambdas.onDeveloperInfoProfileClick)()
+                    true
+                }
+            },
             text = urlText(
                 "View profile",
                 developerInfoState.profileUrl,
@@ -55,9 +60,9 @@ fun DeveloperInfo(
                 .semantics(true) {
                     role = Role.Switch
                     contentDescription = if (developerInfoState.isChecked) {
-                        "${developerInfoState.name} 1 to 1"
+                        "${developerInfoState.name} 1 on 1"
                     } else {
-                        "${developerInfoState.name} 1 to 1"
+                        "${developerInfoState.name} 1 on 1"
                     }
                     stateDescription = if (developerInfoState.isChecked) {
                         "is on"

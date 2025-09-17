@@ -9,6 +9,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.senordeveloper.a2025template.model.A11yShowcaseModel
@@ -29,6 +31,7 @@ fun A11yShowcase(
         modifier = modifier
             .fillMaxSize()
             .padding(4.dp)
+            .semantics(mergeDescendants = false) {}
     ) {
         Header(
             Modifier

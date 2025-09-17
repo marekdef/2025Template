@@ -3,6 +3,7 @@ package pl.senordeveloper.a2025template.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.LinkInteractionListener
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.TextStyle
@@ -34,30 +36,30 @@ fun CopyRight(
     onUrlClicked: () -> Unit = {}
 ) {
     Column {
-        Text(
-            modifier = modifier.fillMaxWidth().padding(8.dp).semantics() {
-                role = Role.Button
-                onClick {
-                    onUrlClicked()
-                    true
-                }
-            },
-            textAlign = TextAlign.Center,
+        BasicText(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(8.dp),
             text = clickableText("© 2025 Senor Developer", "Senor Developer", "https://senordeveloper.pl", onClick = onUrlClicked),
         )
         val text = clickableText2("© 2025 Marek Defecinski", "Marek Defecinski", "https://senordeveloper.pl", onClick = onUrlClicked)
         ClickableText(
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
             style = TextStyle.Default.copy(textAlign = TextAlign.Center),
             text = text,
-        ) {
-            offset ->
+        ) { offset ->
             val annotations = text.getStringAnnotations(tag = "url", start = offset, end = offset)
             annotations.firstOrNull()?.let { onUrlClicked() }
         }
+
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = clickableText3("© 2025 Marek Defecinski", "Marek Defecinski", "https://senordeveloper.pl", onClick = onUrlClicked),
+            textAlign = TextAlign.Center
+        )
     }
-
-
 }
 
 fun clickableText(string: String, clickablePart: String, url: String, onClick: () -> Unit): AnnotatedString {
@@ -126,10 +128,44 @@ fun clickableText2(string: String, clickablePart: String, url: String, onClick: 
     return annotatedText
 }
 
+@OptIn(ExperimentalTextApi::class)
+fun clickableText3(string: String, clickablePart: String, url: String, onClick: () -> Unit): AnnotatedString {
+    val startIndex = string.indexOf(clickablePart)
+    val endIndex = startIndex + clickablePart.length
+
+    val prefix = string.substring(0, startIndex)
+    val suffix = string.substring(endIndex)
+
+    val annotatedText = buildAnnotatedString {
+        append(prefix)
+
+        withLink(
+            link = LinkAnnotation.Url(
+                url = url,
+                linkInteractionListener = LinkInteractionListener {
+                    onClick()
+                },
+                styles = TextLinkStyles(
+                    style = SpanStyle(
+                        color = Color.Blue,
+                        textDecoration = TextDecoration.Underline,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+            )
+        ) {
+            append(clickablePart)
+        }
+
+        append(suffix)
+    }
+    return annotatedText
+}
+
 @Preview
 @Composable
 private fun CopyRightPreview() {
     A11yPreviewBox {
-        CopyRight(modifier = it )
+        CopyRight(modifier = it)
     }
 }
